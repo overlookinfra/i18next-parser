@@ -128,28 +128,42 @@ describe('hashFromString helper function', function () {
     it('creates an object from a string path', function (done) {
         var res = hashFromString('one');
 
-        assert.deepEqual(res, { one: '' });
+        assert.deepEqual(res, { one: simpleCopy( defaultTranslationValue ) });
         done();
     });
 
     it('ignores trailing separator', function (done) {
         var res = hashFromString('one..', '..');
 
-        assert.deepEqual(res, { one: '' });
+        assert.deepEqual(res, { one: simpleCopy( defaultTranslationValue ) });
         done();
     });
 
     it('handles nested paths', function (done) {
-        var res = hashFromString('one.two.three');
+        var res = hashFromString('one.two.three'),
+            expected = {
+                one: {
+                    two: simpleCopy( defaultTranslationValue )
+                }
+            };
 
-        assert.deepEqual(res, { one: { two: { three: '' } } });
+        expected.one.two['three'] = simpleCopy( defaultTranslationValue );
+
+        assert.deepEqual(res, expected);
         done();
     });
 
     it('handles a different separator', function (done) {
-        var res = hashFromString('one_two_three.', '_');
+        var res = hashFromString('one_two_three.', '_'),
+            expected = {
+                one: {
+                    two: simpleCopy( defaultTranslationValue )
+                }
+            };
 
-        assert.deepEqual(res, { one: { two: { 'three.': '' } } });
+        expected.one.two['three.'] = simpleCopy( defaultTranslationValue );
+
+        assert.deepEqual(res, expected);
         done();
     });
 });

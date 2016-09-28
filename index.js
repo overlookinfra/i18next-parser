@@ -92,6 +92,15 @@ Parser.prototype._transform = function(file, encoding, done) {
 
 
 
+    // we find the relative path
+    // =========================
+    var relativeFilePath = path.relative(__dirname, this.base);
+    if (file.path) {
+        relativeFilePath = path.relative(process.cwd(), file.path);
+    }
+
+
+
     // create the parser regexes
     // =========================
     var fileContent = data.toString();
@@ -176,7 +185,10 @@ Parser.prototype._transform = function(file, encoding, done) {
             key = key.replace( self.namespaceSeparator, self.keySeparator );
         }
 
-        self.translations.push( key );
+        self.translations.push({
+            'key': key,
+            'paths': [relativeFilePath]
+        });
     }
 
     done();
@@ -192,19 +204,43 @@ Parser.prototype._flush = function(done) {
 
 
 
+    // handle multiple file paths per key
+    // ==================================
+    var tempHash = {};
+    self.translations = _.map(self.translations, (_, index) => {
+        var translation = self.translations[index];
+
+        if (tempHash.hasOwnProperty(translation.key)) {
+            tempHash[translation.key] = tempHash[translation.key].concat(translation.paths);
+        } else {
+            tempHash[translation.key] = translation.paths;
+        }
+
+        return { key: translation.key, paths: tempHash[translation.key]};
+    });
+
+
+
     // remove duplicate keys
     // =====================
-    self.translations = _.uniq( self.translations ).sort();
+    self.translations = _.sortBy(_.uniq( self.translations, 'key' ), 'key');
 
 
 
     // turn the array of keys
     // into an associative object
     // ==========================
+    // from
+    // [{ keyOne: '', paths: ['', '']}, { keyTwo: '', paths: ['']}]
+    // to
+    // { 'keyOne': { msgstr: '', paths: ['', ''] }, keyTwo: { msgstr: '', paths: [''] } }
+    // ==================================================================================
     for (var index in self.translations) {
         // simplify ${dot.separated.variables} into just their tails (${variables})
-        var key = self.translations[index].replace( /\$\{(?:[^.}]+\.)*([^}]+)\}/g, '\${$1}' );
-        translationsHash = helpers.hashFromString( key, self.keySeparator, translationsHash );
+        var key = self.translations[index].key.replace( /\$\{(?:[^.}]+\.)*([^}]+)\}/g, '\${$1}' ),
+            paths = self.translations[index].paths;
+
+        translationsHash = helpers.hashFromString( key, self.keySeparator, translationsHash, paths );
     }
 
 

@@ -12,7 +12,12 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first: '', second: '', third: '', fourth: '' } );
+            assert.deepEqual( result, {
+                first: simpleCopy( defaultTranslationValue ),
+                second: simpleCopy( defaultTranslationValue ),
+                third: simpleCopy( defaultTranslationValue ),
+                fourth: simpleCopy( defaultTranslationValue )
+            });
             done();
         });
 
@@ -35,7 +40,13 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first: '', second: '', third: '', fourth: '', fifth: '' } );
+            assert.deepEqual( result, {
+                first: simpleCopy( defaultTranslationValue ),
+                second: simpleCopy( defaultTranslationValue ),
+                third: simpleCopy( defaultTranslationValue ),
+                fourth: simpleCopy( defaultTranslationValue ),
+                fifth: simpleCopy( defaultTranslationValue )
+            });
             done();
         });
         i18nextParser.end(fakeFile);
@@ -45,6 +56,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
+            base: path.resolve(__dirname, 'templating/html.html'),
             contents: fs.readFileSync( path.resolve(__dirname, 'templating/html.html') )
         });
 
@@ -54,7 +66,17 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first: '', second: '', third: '', fourth: '', fifth: '' } );
+            var duplicateTranslationValue = simpleCopy( defaultTranslationValue );
+
+            duplicateTranslationValue.paths = ['test/templating/html.html'];
+
+            assert.deepEqual( result, {
+                first: simpleCopy( duplicateTranslationValue ),
+                second: simpleCopy( duplicateTranslationValue ),
+                third: simpleCopy( duplicateTranslationValue ),
+                fourth: simpleCopy( duplicateTranslationValue ),
+                fifth: simpleCopy( duplicateTranslationValue )
+            });
             done();
         });
         i18nextParser.end(fakeFile);
@@ -65,6 +87,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
+            base: path.resolve(__dirname, 'templating/jade.jade'),
             contents: fs.readFileSync( path.resolve(__dirname, 'templating/jade.jade') )
         });
 
@@ -74,7 +97,13 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first: '' } );
+            var duplicateTranslationValue = simpleCopy( defaultTranslationValue );
+
+            duplicateTranslationValue.paths = ['test/templating/jade.jade'];
+
+            assert.deepEqual( result, {
+                first: simpleCopy( duplicateTranslationValue )
+            });
             done();
         });
 
@@ -86,6 +115,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
+            base: path.resolve(__dirname, 'templating/handlebars.hbs'),
             contents: fs.readFileSync( path.resolve(__dirname, 'templating/handlebars.hbs') )
         });
 
@@ -95,7 +125,11 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first: '' } );
+            var duplicateTranslationValue = simpleCopy( defaultTranslationValue );
+
+            duplicateTranslationValue.paths = ['test/templating/handlebars.hbs'];
+
+            assert.deepEqual( result, { first: simpleCopy( duplicateTranslationValue ) } );
             done();
         });
 
@@ -214,7 +248,18 @@ describe('parser', function () {
             }
         });
         i18nextParser.once('end', function (file) {
-            assert.deepEqual( result, { first: '', second: { third: '' } } );
+            var duplicateTranslationValue = simpleCopy( defaultTranslationValue );
+
+            duplicateTranslationValue.paths = ['test'];
+
+            var expectedResult = {
+                first: simpleCopy( duplicateTranslationValue ),
+                second: simpleCopy( duplicateTranslationValue )
+            };
+            // this avoids circular references
+            expectedResult.second['third'] = simpleCopy( duplicateTranslationValue );
+
+            assert.deepEqual( result, expectedResult );
             done();
         });
 
@@ -235,9 +280,15 @@ describe('parser', function () {
             }
         });
         i18nextParser.once('end', function (file) {
-            var keys = Object.keys(result);
-            assert.equal( keys[0], 'escaped "double quotes"' );
-            assert.equal( keys[1], "escaped 'single quotes'" );
+            var duplicateTranslationValue = simpleCopy( defaultTranslationValue );
+
+            duplicateTranslationValue.paths = ['test'];
+
+            var expectedResult = {
+                "escaped 'single quotes'": simpleCopy( duplicateTranslationValue ),
+                'escaped "double quotes"': simpleCopy( duplicateTranslationValue )
+            };
+            assert.deepEqual( result, expectedResult );
             done();
         });
 
@@ -283,6 +334,8 @@ describe('parser', function () {
             var keys = Object.keys(result);
             assert.deepEqual(Object.keys(result), ['root']);
             assert.deepEqual(Object.keys(result.root), [
+              'msgstr',
+              'paths',
               '${path}',
               '${expr}',
               'plain'
@@ -420,7 +473,7 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first: '' } );
+            assert.deepEqual( result, { first: simpleCopy( defaultTranslationValue ) } );
             done();
         });
 
@@ -454,7 +507,7 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, {first: ''} );
+            assert.deepEqual( result, {first: simpleCopy( defaultTranslationValue )} );
             done();
         });
         i18nextParser.end(fakeFile);
@@ -473,7 +526,12 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first_date: '', second_form2: '', third_context: '', fourth_pipo: '' } );
+            assert.deepEqual( result, {
+                first_date: simpleCopy( defaultTranslationValue ),
+                second_form2: simpleCopy( defaultTranslationValue ),
+                third_context: simpleCopy( defaultTranslationValue ),
+                fourth_pipo: simpleCopy( defaultTranslationValue )
+            });
             done();
         });
         i18nextParser.end(fakeFile);
@@ -492,7 +550,7 @@ describe('parser', function () {
             }
         });
         i18nextParser.on('end', function (file) {
-            assert.deepEqual( result, { first: '' });
+            assert.deepEqual( result, { first: simpleCopy( defaultTranslationValue ) });
             done();
         });
         i18nextParser.end(fakeFile);

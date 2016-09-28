@@ -2,8 +2,9 @@
 // turn it into a hash {foo: {bar: ""}}.
 // The generated hash can be attached to an
 // optional `hash`.
-function hashFromString(path, separator, hash) {
+function hashFromString(path, separator, hash, filePaths) {
     separator = separator || '.';
+    filePaths = filePaths || [''];
 
     if ( path.indexOf( separator, path.length - separator.length ) >= 0 ) {
         path = path.slice( 0, -separator.length );
@@ -14,11 +15,21 @@ function hashFromString(path, separator, hash) {
     var obj     = tmp_obj;
 
     for( var x = 0; x < parts.length; x++ ) {
-        if ( x == parts.length - 1 ) {
-            tmp_obj[parts[x]] = '';
+        if ( x === parts.length - 1 ) {
+            tmp_obj[parts[x]] = {
+                'msgstr': '',
+                'paths': filePaths
+            };
         }
         else if ( ! tmp_obj[parts[x]] ) {
-            tmp_obj[parts[x]] = {};
+            if (x === 0) {
+                tmp_obj[parts[x]] = {};
+            } else {
+                tmp_obj[parts[x]] = {
+                    'msgstr': '',
+                    'paths': filePaths
+                };
+            }
         }
         tmp_obj = tmp_obj[parts[x]];
     }

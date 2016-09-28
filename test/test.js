@@ -9,6 +9,13 @@ var hashFromString  = helpers.hashFromString;
 var mergeHash       = helpers.mergeHash;
 var replaceEmpty    = helpers.replaceEmpty;
 
+var defaultTranslationValue = {
+    'msgstr': '',
+    'paths': ['']
+};
+function simpleCopy(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
 
 describe('i18next-parser', function () {
     /* jshint evil:true */
