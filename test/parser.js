@@ -373,7 +373,15 @@ describe('parser', function () {
             }
         });
         i18nextParser.once('end', function (file) {
-            assert.deepEqual( result, { first: 'first', second: '' } );
+            var duplicateTranslationValue = simpleCopy( defaultTranslationValue );
+            duplicateTranslationValue.paths = ['test'];
+            var firstValue = simpleCopy( duplicateTranslationValue );
+            firstValue.msgstr = 'first';
+
+            assert.deepEqual( result, {
+                first: firstValue,
+                second: duplicateTranslationValue,
+            } );
             done();
         });
 
@@ -387,8 +395,12 @@ describe('parser', function () {
             contents: new Buffer("asd t('test_context:first')")
         });
 
+        var firstValue = simpleCopy( defaultTranslationValue );
+        firstValue.paths = ['test'];
+        firstValue.msgstr = 'first';
+
         var expectedResult = {
-            first: 'first',
+            first: firstValue,
             first_context1: 'first context1',
             first_context2: ''
         };
@@ -413,10 +425,18 @@ describe('parser', function () {
             contents: new Buffer("asd t('test_plural:first') t('test_plural:second')")
         });
 
+        var firstValue = simpleCopy( defaultTranslationValue );
+        firstValue.paths = ['test'];
+        firstValue.msgstr = 'first';
+
+        var secondValue = simpleCopy( defaultTranslationValue );
+        secondValue.paths = ['test'];
+        secondValue.msgstr = 'second';
+
         var expectedResult = {
-            first: 'first',
+            first: firstValue,
             first_plural: 'first plural',
-            second: 'second',
+            second: secondValue,
             second_plural_0: 'second plural 0',
             second_plural_12: 'second plural 12'
         };
@@ -441,8 +461,12 @@ describe('parser', function () {
             contents: new Buffer("asd t('test_context_plural:first')")
         });
 
+        var firstValue = simpleCopy( defaultTranslationValue );
+        firstValue.paths = ['test'];
+        firstValue.msgstr = 'first';
+
         var expectedResult = {
-            first: 'first',
+            first: firstValue,
             first_context1_plural: 'first context1 plural',
             first_context2_plural_2: 'first context2 plural 2'
         };

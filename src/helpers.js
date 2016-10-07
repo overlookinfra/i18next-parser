@@ -47,7 +47,10 @@ function mergeHash(source, target, old, keepRemoved) {
 
     Object.keys(source).forEach(function (key) {
         if ( target[key] !== undefined ) {
-            if (typeof source[key] === 'object' && source[key].constructor !== Array) {
+            if (typeof target[key] === 'object' && typeof target[key].paths !== 'undefined' && typeof target[key].msgstr !== 'undefined') {
+                target[key].msgstr = source[key];
+            }
+            else if (typeof source[key] === 'object' && source[key].constructor !== Array) {
                 var nested = mergeHash( source[key], target[key], old[key], keepRemoved );
                 target[key] = nested.new;
                 old[key] = nested.old;
