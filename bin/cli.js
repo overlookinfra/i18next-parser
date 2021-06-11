@@ -90,14 +90,13 @@ var intro = '\n'+
 console.log(intro);
 
 
-
 // Create a stream from the input
 // ==============================
-var stat = fs.statSync(input);
-var stream;
+let stat = fs.statSync(input);
+let stream;
 
 if ( stat.isDirectory() ) {
-  var args = { root: input };
+  let args = { };
   if( program.directoryFilter ) {
     args.directoryFilter = program.directoryFilter;
   }
@@ -108,7 +107,7 @@ if ( stat.isDirectory() ) {
     args.depth = 0;
   }
 
-  stream = readdirp( args );
+  stream = readdirp( input, args );
 }
 else {
   stream = new Readable( { objectMode: true } );

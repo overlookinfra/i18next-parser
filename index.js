@@ -71,7 +71,7 @@ Parser.prototype._transform = function(file, encoding, done) {
     // get the file from file path
     // ===========================
     if(file.isNull()) {
-        if ( file.stat.isDirectory() ) {
+        if ( file.isDirectory() ) {
             return done();
         }
         else if ( file.path && fs.existsSync( file.path ) ) {
