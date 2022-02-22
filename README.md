@@ -1,4 +1,6 @@
-# i18next Parser
+# i18next Parser [![Build Status](https://travis-ci.org/i18next/i18next-parser.svg?branch=master)](https://travis-ci.org/i18next/i18next-parser)
+
+[![NPM](https://nodei.co/npm/i18next-parser.png?downloads=true&stars=true)](https://www.npmjs.com/package/i18next-parser)
 
 A simple command line and gulp plugin that lets you parse your code and extract the translations keys in it.
 
@@ -74,6 +76,9 @@ Thanks a lot to all the previous [contributors](https://github.com/i18next/i18ne
 - **--keep-removed**: Prevent keys no longer found from being removed
 - **--write-old false**: Avoid saving the \_old files
 - **--ignore-variables**: Don't fail when a variable is found
+- **--prefix <string>**: Prefix filename for each locale, eg.: 'pre-$LOCALE-' will yield 'pre-en-default.json'
+- **--suffix <string>**: Suffix filename for each locale, eg.: '-$suf-LOCALE' will yield 'default-suf-en.json'
+- **--extension <string>**: Specify extension for filename for each locale, eg.: '.$LOCALE.i18n' will yield 'default.en.i18n'
 
 ---
 

@@ -15,12 +15,15 @@ var Parser      = require('../index');
 // Configure the command line
 // ==========================
 program
-  .version('0.10.1')
+  .version('0.12.0')
   .option( '-r, --recursive'                     , 'Parse sub directories' )
   .option( '-p, --parser <string>'               , 'A custom regex to use to parse your code' )
   .option( '-a, --attributes <list>'             , 'The html attributes to parse' )
   .option( '-o, --output <directory>'            , 'The directory to output parsed keys' )
   .option( '-f, --functions <list>'              , 'The function names to parse in your code' )
+  .option( '--prefix <string>'                   , 'Prefix filename for each locale, eg.: \'pre-$LOCALE-\' will yield \'pre-en-default.json\'')
+  .option( '--suffix <string>'                   , 'Suffix filename for each locale, eg.: \'-$suf-LOCALE\' will yield \'default-suf-en.json\'')
+  .option( '--extension <string>'                , 'Specify extension for filename for each locale, eg.: \'.$LOCALE.i18n\' will yield \'default.en.i18n\'')
   .option( '-n, --namespace <string>'            , 'The default namespace (translation by default)' )
   .option( '-s, --namespace-separator <string>'  , 'The default namespace separator (: by default)' )
   .option( '-k, --key-separator <string>'        , 'The default key separator (. by default)' )
@@ -151,7 +154,7 @@ stream
 
     mkdirp.sync( path.dirname(file.path) );
 
-    fs.writeFileSync( file.path, file.contents );
+    fs.writeFileSync( file.path, file.contents + "\n" );
 
     this.push( file );
 
