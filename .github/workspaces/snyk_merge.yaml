@@ -1,0 +1,24 @@
+---
+name: snyk_merge
+
+on: push
+
+jobs:
+  snyk_node:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: install npm dependencies
+        uses: actions/setup-node@v2
+      - run: npm install
+      - name: run snyk monitor
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_PE_TOKEN }}
+        with:
+          command: monitor
+          args: --file=package-lock.json --org=puppet-enterprise --project-name=i18next-parser
