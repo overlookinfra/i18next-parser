@@ -314,4 +314,4 @@ In recursive mode, it will parse `*.hbs` and `*.js` files and skip `.git` folder
     writeOld: false
 }))`
 
-This will output your files in the format `$LOCALE/client.$LOCALE.i18n.json` in a `i18n/` directory.
+This will output your files in the format `$LOCALE/client.$LOCALE.i18n.json` in a `i18n/` directory.  
