@@ -321,7 +321,7 @@ Parser.prototype._flush = function(done) {
             mergedTranslationsFile = new File({
               path: namespacePath,
               base: base,
-              contents: new Buffer( JSON.stringify( mergedTranslations.new, null, 2 ) )
+              contents: Buffer.from( JSON.stringify( mergedTranslations.new, null, 2 ) )
             });
             this.emit( 'writing', namespacePath );
             self.push( mergedTranslationsFile );
@@ -330,7 +330,7 @@ Parser.prototype._flush = function(done) {
                 mergedOldTranslationsFile = new File({
                     path: namespaceOldPath,
                     base: base,
-                    contents: new Buffer(JSON.stringify(mergedTranslations.old, null, 2))
+                    contents: Buffer.from(JSON.stringify(mergedTranslations.old, null, 2))
                 });
                 this.emit( 'writing', namespaceOldPath );
                 self.push( mergedOldTranslationsFile );
@@ -351,7 +351,7 @@ Parser.prototype._flush = function(done) {
                 mergedTranslationsFileCommented = new File({
                   path: namespacePathCommented,
                   base: base,
-                  contents: new Buffer( JSON.stringify( mergedTranslationsCommented.new, null, 2 ) )
+                  contents: Buffer.from( JSON.stringify( mergedTranslationsCommented.new, null, 2 ) )
                 });
                 this.emit( 'writing', namespacePathCommented );
                 self.push( mergedTranslationsFileCommented );

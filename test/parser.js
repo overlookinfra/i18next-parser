@@ -3,7 +3,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
-            contents: new Buffer("asd t('first') t('second') \n asd t('third') ad t('fourth')")
+            contents: Buffer.from("asd t('first') t('second') \n asd t('third') ad t('fourth')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -25,7 +25,7 @@ describe('parser', function () {
           attributes: ['data-i18n', 'translate', 't']
         });
         var fakeFile = new File({
-            contents: new Buffer('<p data-i18n>first</p><p translate="second">Second</p><p t="[html]third">Third</p><p data-i18n="[title]fourth;fifth">Fifth</p>')
+            contents: Buffer.from('<p data-i18n>first</p><p translate="second">Second</p><p t="[html]third">Third</p><p data-i18n="[title]fourth;fifth">Fifth</p>')
         });
 
         i18nextParser.on('data', function (file) {
@@ -48,7 +48,7 @@ describe('parser', function () {
           trackPaths: true
         });
         var fakeFile = new File({
-            contents: new Buffer('<p data-i18n>first</p><p translate="second">Second</p><p t="[html]third">Third</p><p data-i18n="[title]fourth;fifth">Fifth</p>')
+            contents: Buffer.from('<p data-i18n>first</p><p translate="second">Second</p><p t="[html]third">Third</p><p data-i18n="[title]fourth;fifth">Fifth</p>')
         });
 
         i18nextParser.on('data', function (file) {
@@ -225,7 +225,7 @@ describe('parser', function () {
             namespace: 'default'
         });
         var fakeFile = new File({
-            contents: new Buffer("asd t('ns1:first') t('second') \n asd t('ns2:third') ad t('fourth')")
+            contents: Buffer.from("asd t('ns1:first') t('second') \n asd t('ns2:third') ad t('fourth')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -258,7 +258,7 @@ describe('parser', function () {
             trackPaths: true
         });
         var fakeFile = new File({
-            contents: new Buffer("asd t('ns1:first') t('second') \n asd t('ns2:third') ad t('fourth')")
+            contents: Buffer.from("asd t('ns1:first') t('second') \n asd t('ns2:third') ad t('fourth')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -317,7 +317,7 @@ describe('parser', function () {
             writeOld: false
         });
         var fakeFile = new File({
-            contents: new Buffer("asd t('ns1:first') t('second') \n asd t('ns2:third') ad t('fourth')")
+            contents: Buffer.from("asd t('ns1:first') t('second') \n asd t('ns2:third') ad t('fourth')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -351,7 +351,7 @@ describe('parser', function () {
             extension: '.$LOCALE.i18n'
         });
         var fakeFile = new File({
-            contents: new Buffer("asd t('fourth')")
+            contents: Buffer.from("asd t('fourth')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -380,7 +380,7 @@ describe('parser', function () {
         });
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_separators?first') t('test_separators?second-third')")
+            contents: Buffer.from("asd t('test_separators?first') t('test_separators?second-third')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -402,7 +402,7 @@ describe('parser', function () {
         var i18nextParser = Parser();
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('escaped \\'single quotes\\'') t(\"escaped \\\"double quotes\\\"\")")
+            contents: Buffer.from("asd t('escaped \\'single quotes\\'') t(\"escaped \\\"double quotes\\\"\")")
         });
 
         i18nextParser.on('data', function (file) {
@@ -427,7 +427,7 @@ describe('parser', function () {
         var i18nextParser = Parser();
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('escaped backslash\\\\ newline\\n\\r tab\\t')")
+            contents: Buffer.from("asd t('escaped backslash\\\\ newline\\n\\r tab\\t')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -449,7 +449,7 @@ describe('parser', function () {
         var i18nextParser = Parser();
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t(`root.plain`) t(`root.${expr}`) t(`root.${dotted.path}`)")
+            contents: Buffer.from("asd t(`root.plain`) t(`root.${expr}`) t(`root.${dotted.path}`)")
         });
 
         i18nextParser.on('data', function (file) {
@@ -474,7 +474,7 @@ describe('parser', function () {
     it('returns buffers', function (done) {
         var i18nextParser = Parser();
         var fakeFile = new File({
-            contents: new Buffer("asd t('first') t('second') \n asd t('third') ad t('fourth')")
+            contents: Buffer.from("asd t('first') t('second') \n asd t('third') ad t('fourth')")
         });
 
         i18nextParser.once('data', function (file) {
@@ -490,7 +490,7 @@ describe('parser', function () {
         var i18nextParser = Parser();
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_merge:first') t('test_merge:second')")
+            contents: Buffer.from("asd t('test_merge:first') t('test_merge:second')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -513,7 +513,7 @@ describe('parser', function () {
         });
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_merge:first') t('test_merge:second')")
+            contents: Buffer.from("asd t('test_merge:first') t('test_merge:second')")
         });
 
         i18nextParser.on('data', function (file) {
@@ -543,7 +543,7 @@ describe('parser', function () {
         var i18nextParser = Parser();
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_context:first')")
+            contents: Buffer.from("asd t('test_context:first')")
         });
 
         var expectedResult = {
@@ -572,7 +572,7 @@ describe('parser', function () {
         });
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_context:first')")
+            contents: Buffer.from("asd t('test_context:first')")
         });
 
         var translationWithPaths = simpleDeepCopy( emptyTranslationWithPaths );
@@ -603,7 +603,7 @@ describe('parser', function () {
         var i18nextParser = Parser();
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_plural:first') t('test_plural:second')")
+            contents: Buffer.from("asd t('test_plural:first') t('test_plural:second')")
         });
 
         var expectedResult = {
@@ -634,7 +634,7 @@ describe('parser', function () {
         });
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_plural:first') t('test_plural:second')")
+            contents: Buffer.from("asd t('test_plural:first') t('test_plural:second')")
         });
 
         var firstValue = simpleDeepCopy( emptyTranslationWithPaths );
@@ -671,7 +671,7 @@ describe('parser', function () {
         var i18nextParser = Parser();
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_context_plural:first')")
+            contents: Buffer.from("asd t('test_context_plural:first')")
         });
 
         var expectedResult = {
@@ -700,7 +700,7 @@ describe('parser', function () {
         });
         var fakeFile = new File({
             base: __dirname,
-            contents: new Buffer("asd t('test_context_plural:first')")
+            contents: Buffer.from("asd t('test_context_plural:first')")
         });
 
         var firstValue = simpleDeepCopy( emptyTranslationWithPaths );
@@ -730,7 +730,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
-            contents: new Buffer('<p data-i18n="[html]first">!first key!</p>')
+            contents: Buffer.from('<p data-i18n="[html]first">!first key!</p>')
         });
 
         i18nextParser.on('data', function (file) {
@@ -752,7 +752,7 @@ describe('parser', function () {
             trackPaths: true
         });
         var fakeFile = new File({
-            contents: new Buffer('<p data-i18n="[html]first">!first key!</p>')
+            contents: Buffer.from('<p data-i18n="[html]first">!first key!</p>')
         });
 
         i18nextParser.on('data', function (file) {
@@ -771,7 +771,7 @@ describe('parser', function () {
     it('fails to parse translation function with a variable', function (done) {
         var i18nextParser = Parser();
         var fakeFile = new File({
-            contents: new Buffer("asd t(firstVar)\n")
+            contents: Buffer.from("asd t(firstVar)\n")
         });
 
         i18nextParser.on('error', function (message, region) {
@@ -787,7 +787,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
-            contents: new Buffer("// FIX this doesn't work and this t is all alone\nt('first')\nt = function() {}")
+            contents: Buffer.from("// FIX this doesn't work and this t is all alone\nt('first')\nt = function() {}")
         });
 
         i18nextParser.on('data', function (file) {
@@ -807,7 +807,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
-            contents: new Buffer('t("first", {context: \'date\'}) t("second", { "hello": "world", "context": \'form2\', "foo": "bar"}) t(`third`, { \'context\' : `context` }) t("fourth", { "context" : "pipo"})')
+            contents: Buffer.from('t("first", {context: \'date\'}) t("second", { "hello": "world", "context": \'form2\', "foo": "bar"}) t(`third`, { \'context\' : `context` }) t("fourth", { "context" : "pipo"})')
         });
 
         i18nextParser.on('data', function (file) {
@@ -829,7 +829,7 @@ describe('parser', function () {
             trackPaths: true
         });
         var fakeFile = new File({
-            contents: new Buffer('t("first", {context: \'date\'}) t("second", { "hello": "world", "context": \'form2\', "foo": "bar"}) t(`third`, { \'context\' : `context` }) t("fourth", { "context" : "pipo"})')
+            contents: Buffer.from('t("first", {context: \'date\'}) t("second", { "hello": "world", "context": \'form2\', "foo": "bar"}) t(`third`, { \'context\' : `context` }) t("fourth", { "context" : "pipo"})')
         });
 
         i18nextParser.on('data', function (file) {
@@ -854,7 +854,7 @@ describe('parser', function () {
         var result;
         var i18nextParser = Parser();
         var fakeFile = new File({
-            contents: new Buffer('import \'./yolo.js\'; t(\'first\');')
+            contents: Buffer.from('import \'./yolo.js\'; t(\'first\');')
         });
 
         i18nextParser.on('data', function (file) {
