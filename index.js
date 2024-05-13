@@ -1,5 +1,3 @@
-var gutil       = require('gulp-util');
-var PluginError = gutil.PluginError;
 var Transform   = require('stream').Transform;
 var util        = require('util');
 var helpers     = require('./src/helpers');
@@ -41,7 +39,7 @@ function Parser(options, transformConfig) {
 
     ['functions', 'locales'].forEach(function( attr ) {
         if ( (typeof self[ attr ] !== 'object') || ! self[ attr ].length ) {
-            throw new PluginError(PLUGIN_NAME, '`'+attr+'` must be an array');
+            throw new Exception('`'+attr+'` must be an array');
         }
     });
 
@@ -62,7 +60,7 @@ Parser.prototype._transform = function(file, encoding, done) {
     // we do not handle streams
     // ========================
     if (file.isStream()) {
-        this.emit( 'error', new PluginError( PLUGIN_NAME, 'Streams not supported' ) );
+        this.emit( 'error', new Exception('Streams not supported' ) );
         return done();
     }
 
@@ -78,7 +76,7 @@ Parser.prototype._transform = function(file, encoding, done) {
             data = fs.readFileSync( file.path );
         }
         else {
-            this.emit( 'error', new PluginError( PLUGIN_NAME, 'File has no content and is not readable' ) );
+            this.emit( 'error', new Exception('File has no content and is not readable' ) );
             return done();
         }
     }
