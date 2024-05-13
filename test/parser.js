@@ -205,13 +205,14 @@ describe('parser', function () {
             if ( file.relative === 'en/translation.po.json' ) {
                 result = JSON.parse( file.contents );
             }
+
         });
         i18nextParser.on('end', function (file) {
             var translationWithPaths = simpleDeepCopy( emptyTranslationWithPaths );
 
             translationWithPaths.paths = ['test/templating/handlebars.hbs'];
 
-            assert.deepEqual( result, { first: translationWithPaths } );
+            assert.deepEqual( result, { first: translationWithPaths, second: translationWithPaths } );
             done();
         });
 
